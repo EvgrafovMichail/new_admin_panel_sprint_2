@@ -12,9 +12,8 @@ include(
     os.path.join(".", "components", "database.py"),
     os.path.join(".", "components", "auth.py"),
     os.path.join(".", "components", "internationalization.py"),
+    os.path.join(".", "components", "logs.py"),
 )
-
-print(os.environ)
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
