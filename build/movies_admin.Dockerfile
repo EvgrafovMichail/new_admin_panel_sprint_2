@@ -7,9 +7,9 @@ ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE 'config.settings'
 
 COPY docker_compose/movies_admin/requirements.txt requirements.txt
-
-RUN  pip install --upgrade pip && pip install -r requirements.txt
- 
+RUN  pip install --upgrade pip && pip install -r requirements.txt 
 COPY docker_compose/movies_admin/ .
 
 EXPOSE 8000
+
+CMD uwsgi --ini uwsgi.ini
