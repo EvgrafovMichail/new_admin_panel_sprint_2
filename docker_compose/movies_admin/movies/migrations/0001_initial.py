@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ("title", models.TextField(verbose_name="title")),
                 (
                     "description",
-                    models.TextField(blank=True, verbose_name="description"),
+                    models.TextField(blank=True, null=True, verbose_name="description"),
                 ),
                 (
                     "creation_date",
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "description",
-                    models.TextField(blank=True, verbose_name="description"),
+                    models.TextField(blank=True, null=True, verbose_name="description"),
                 ),
             ],
             options={
