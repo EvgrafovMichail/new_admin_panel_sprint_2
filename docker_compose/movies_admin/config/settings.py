@@ -12,11 +12,11 @@ include(
     os.path.join(".", "components", "database.py"),
     os.path.join(".", "components", "auth.py"),
     os.path.join(".", "components", "internationalization.py"),
-    os.path.join(".", "components", "logs.py"),
 )
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT  = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
