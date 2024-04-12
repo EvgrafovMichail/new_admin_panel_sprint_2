@@ -20,7 +20,7 @@ class MoviesApiMixin:
             Filmwork.objects.all()
             .values("title", "description", "creation_date", "rating", "type")
             .annotate(id=Cast("id", output_field=TextField()))
-            .annotate(genres_names=ArrayAgg("genres__name", distinct=True))
+            .annotate(genres=ArrayAgg("genres__name", distinct=True))
             .annotate(
                 actors=ArrayAgg(
                     "persons__full_name",
@@ -60,14 +60,17 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
             queryset, page_size=self.paginate_by
         )
 
-        page_id = int(self.request.GET.get("page", 1))
+        if (page_id := self.request.GET.get("page", 1)) == "last":
+            page_id = paginator.num_pages
+
+        page_id = int(page_id)
         page = paginator.page(page_id)
 
         context = {
             "count": paginator.count,
             "total_pages": paginator.num_pages,
-            "prev": page_id - 1 if page.has_previous() else 1,
-            "next": page_id + 1 if page.has_next() else paginator.num_pages,
+            "prev": page_id - 1 if page.has_previous() else None,
+            "next": page_id + 1 if page.has_next() else None,
             "results": list(page),
         }
         return context
