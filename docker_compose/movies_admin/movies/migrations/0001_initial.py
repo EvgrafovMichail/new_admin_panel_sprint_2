@@ -170,13 +170,6 @@ class Migration(migrations.Migration):
                 "db_table": 'content"."person_film_work',
             },
         ),
-        migrations.AddField(
-            model_name="person",
-            name="film_works",
-            field=models.ManyToManyField(
-                through="movies.PersonFilmwork", to="movies.filmwork"
-            ),
-        ),
         migrations.CreateModel(
             name="GenreFilmwork",
             fields=[
@@ -218,6 +211,13 @@ class Migration(migrations.Migration):
             name="genres",
             field=models.ManyToManyField(
                 through="movies.GenreFilmwork", to="movies.genre"
+            ),
+        ),
+        migrations.AddField(
+            model_name="filmwork",
+            name="persons",
+            field=models.ManyToManyField(
+                through="movies.PersonFilmwork", to="movies.person"
             ),
         ),
         migrations.AddConstraint(

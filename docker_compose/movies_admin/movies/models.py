@@ -42,6 +42,18 @@ class Genre(UUIDMixin, TimeStampedMixin):
         return self.name
 
 
+class Person(UUIDMixin, TimeStampedMixin):
+    full_name = models.TextField(_("full_name"), blank=False, null=False)
+
+    class Meta:
+        db_table = "content\".\"person"
+        verbose_name = "Персона"
+        verbose_name_plural = "Персоны"
+
+    def __str__(self) -> str:
+        return self.full_name
+
+
 class Filmwork(UUIDMixin, TimeStampedMixin):
     class FilmworkTypes(models.TextChoices):
         MOVIE = "movie"
@@ -62,6 +74,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
     type = models.TextField(_("type"), choices=FilmworkTypes.choices)
     file_path = models.FileField(_("file"), blank=True, null=True, upload_to="movies/")
     genres = models.ManyToManyField(Genre, through="GenreFilmwork")
+    persons = models.ManyToManyField(Person, through="PersonFilmwork")
 
     class Meta:
         db_table = "content\".\"film_work"
@@ -100,19 +113,6 @@ class GenreFilmwork(UUIDMixin):
                 name="film_work_genre_idx",
             )
         ]
-
-
-class Person(UUIDMixin, TimeStampedMixin):
-    full_name = models.TextField(_("full_name"), blank=False, null=False)
-    film_works = models.ManyToManyField(Filmwork, through="PersonFilmwork")
-
-    class Meta:
-        db_table = "content\".\"person"
-        verbose_name = "Персона"
-        verbose_name_plural = "Персоны"
-
-    def __str__(self) -> str:
-        return self.full_name
 
 
 class PersonFilmwork(UUIDMixin):
