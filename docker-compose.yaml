@@ -31,6 +31,8 @@ services:
     build:
       dockerfile: build/movies_admin.Dockerfile
       context: .
+    volumes:
+      - ./static:/app/static
     depends_on:
       database:
         condition: service_healthy
@@ -40,7 +42,7 @@ services:
     volumes:
       - ./nginx_configs/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx_configs/configs:/etc/nginx/conf.d:ro
-      - ./static:/static:ro
+      - ./static:/data/static:ro
     depends_on:
       - database
       - admin_panel

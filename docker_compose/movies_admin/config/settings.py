@@ -14,10 +14,9 @@ include(
     os.path.join(".", "components", "internationalization.py"),
 )
 
-print(os.environ)
-
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT  = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

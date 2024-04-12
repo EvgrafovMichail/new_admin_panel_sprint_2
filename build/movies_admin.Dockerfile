@@ -12,4 +12,4 @@ COPY docker_compose/movies_admin/ .
 
 EXPOSE 8000
 
-CMD uwsgi --ini uwsgi.ini
+CMD bash start.sh

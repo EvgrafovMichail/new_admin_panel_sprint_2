@@ -31,7 +31,7 @@ class Genre(UUIDMixin, TimeStampedMixin):
         blank=False,
         null=False
     )
-    description = models.TextField(_("description"), blank=True)
+    description = models.TextField(_("description"), blank=True, null=True)
 
     class Meta:
         db_table = "content\".\"genre"
@@ -42,13 +42,25 @@ class Genre(UUIDMixin, TimeStampedMixin):
         return self.name
 
 
+class Person(UUIDMixin, TimeStampedMixin):
+    full_name = models.TextField(_("full_name"), blank=False, null=False)
+
+    class Meta:
+        db_table = "content\".\"person"
+        verbose_name = "Персона"
+        verbose_name_plural = "Персоны"
+
+    def __str__(self) -> str:
+        return self.full_name
+
+
 class Filmwork(UUIDMixin, TimeStampedMixin):
     class FilmworkTypes(models.TextChoices):
         MOVIE = "movie"
         TV_SHOW = "tv_show"
 
     title = models.TextField(_("title"), blank=False, null=False)
-    description = models.TextField(_("description"), blank=True)
+    description = models.TextField(_("description"), blank=True, null=True)
     creation_date = models.DateField(_("creation_date"), blank=True, null=True)
     rating = models.FloatField(
         _("rating"),
@@ -62,6 +74,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
     type = models.TextField(_("type"), choices=FilmworkTypes.choices)
     file_path = models.FileField(_("file"), blank=True, null=True, upload_to="movies/")
     genres = models.ManyToManyField(Genre, through="GenreFilmwork")
+    persons = models.ManyToManyField(Person, through="PersonFilmwork")
 
     class Meta:
         db_table = "content\".\"film_work"
@@ -100,19 +113,6 @@ class GenreFilmwork(UUIDMixin):
                 name="film_work_genre_idx",
             )
         ]
-
-
-class Person(UUIDMixin, TimeStampedMixin):
-    full_name = models.TextField(_("full_name"), blank=False, null=False)
-    film_works = models.ManyToManyField(Filmwork, through="PersonFilmwork")
-
-    class Meta:
-        db_table = "content\".\"person"
-        verbose_name = "Персона"
-        verbose_name_plural = "Персоны"
-
-    def __str__(self) -> str:
-        return self.full_name
 
 
 class PersonFilmwork(UUIDMixin):

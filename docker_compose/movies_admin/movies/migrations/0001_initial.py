@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ("title", models.TextField(verbose_name="title")),
                 (
                     "description",
-                    models.TextField(blank=True, verbose_name="description"),
+                    models.TextField(blank=True, null=True, verbose_name="description"),
                 ),
                 (
                     "creation_date",
@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "description",
-                    models.TextField(blank=True, verbose_name="description"),
+                    models.TextField(blank=True, null=True, verbose_name="description"),
                 ),
             ],
             options={
@@ -170,13 +170,6 @@ class Migration(migrations.Migration):
                 "db_table": 'content"."person_film_work',
             },
         ),
-        migrations.AddField(
-            model_name="person",
-            name="film_works",
-            field=models.ManyToManyField(
-                through="movies.PersonFilmwork", to="movies.filmwork"
-            ),
-        ),
         migrations.CreateModel(
             name="GenreFilmwork",
             fields=[
@@ -218,6 +211,13 @@ class Migration(migrations.Migration):
             name="genres",
             field=models.ManyToManyField(
                 through="movies.GenreFilmwork", to="movies.genre"
+            ),
+        ),
+        migrations.AddField(
+            model_name="filmwork",
+            name="persons",
+            field=models.ManyToManyField(
+                through="movies.PersonFilmwork", to="movies.person"
             ),
         ),
         migrations.AddConstraint(
