@@ -17,17 +17,8 @@ services:
        retries: 5
 
   admin_panel:
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=database
-      - DB_PORT=${DB_PORT}
-      - SECRET_KEY=${SECRET_KEY}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-      - DEBUG=${DEBUG}
-    ports:
-      - ${ADMIN_PORT}:${ADMIN_PORT}
+    env_file:
+      - path: ./.env
     build:
       dockerfile: build/movies_admin.Dockerfile
       context: .
@@ -47,4 +38,4 @@ services:
       - database
       - admin_panel
     ports:
-      - ${NGINX_PORT}:${NGINX_PORT}
+      - ${ADMIN_PORT}:${NGINX_PORT}
